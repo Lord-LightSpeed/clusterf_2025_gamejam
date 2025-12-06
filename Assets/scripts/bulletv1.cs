@@ -9,6 +9,7 @@ public class bulletv1 : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = transform.up * 10f;
         self = GetComponent<GameObject>();
+        Destroy(self);
     }
 
     // Update is called once per frame
