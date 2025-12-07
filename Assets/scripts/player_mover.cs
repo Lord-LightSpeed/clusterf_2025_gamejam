@@ -8,6 +8,7 @@ public class player_mover : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        exposeplayer.player = rb.gameObject;
     }
 
     // Update is called once per frame

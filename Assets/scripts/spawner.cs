@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Mathematics;
 public class spawner : MonoBehaviour
 {
     public GameObject enemy;
@@ -26,24 +27,26 @@ public class spawner : MonoBehaviour
     }
     private IEnumerator SpawnLoop()
     {
+        int spawnedcount = 0;
         while (true)
         {
-            spawnCooldown = Random.Range(maxCooldown, minCooldown);
+            spawnCooldown = UnityEngine.Random.Range(math.pow((math.cos(spawnedcount / (math.PI2 * 10f) ) + 0.1f), 2) * maxCooldown, math.pow((math.cos(spawnedcount / (math.PI2 * 10f) ) + 0.1f), 2) * minCooldown);
             yield return new WaitForSeconds(spawnCooldown);
             Spawn();
+            spawnedcount++;
         }
     }
     private void Spawn()
     {
-        enemyCount = Random.Range(maxEnemies, minEnemies); 
-        enemyDistance = Random.Range(maxDistance, minDistance);
+        enemyCount = UnityEngine.Random.Range(maxEnemies, minEnemies); 
+        enemyDistance = UnityEngine.Random.Range(maxDistance, minDistance);
         if (enemy == null) { return; };
-        float angle = Random.Range(0f, Mathf.PI * 2f);
-        Vector2 pos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 3f + (Vector2)transform.position;
+        float angle = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+        Vector2 pos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * enemyDistance + (Vector2)transform.position;
         for (int i = 0; i < enemyCount; i++)
         {
-            cluster = Random.Range(maxCluster, minCluster);
-            float angle2 = Random.Range(0f, Mathf.PI * 2f);
+            cluster = UnityEngine.Random.Range(maxCluster, minCluster);
+            float angle2 = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
             Vector2 pos2 = new Vector2(Mathf.Cos(angle2), Mathf.Sin(angle2)) * cluster + pos;
             Instantiate(enemy, pos2, Quaternion.identity);
         }
